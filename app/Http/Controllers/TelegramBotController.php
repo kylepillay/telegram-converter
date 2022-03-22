@@ -14,10 +14,8 @@ class TelegramBotController extends Controller
         $firstName = $response->getFirstName();
         $username = $response->getUsername();
 
-        return response()->json([
-            'Bot ID' => $botId,
-            'First Name' => $firstName,
-            'Username' => $username
-        ]);
+        $response = Telegram::setWebhook(['url' => config('telegram.bots.mybot.webhook_url')]);
+
+        return response()->json($response);
     }
 }
