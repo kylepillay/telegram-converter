@@ -24,6 +24,6 @@ Route::get('/bot/get_webhook_info', [TelegramBotController::class, 'getWebhookIn
 
 Route::post('/bot/webhook', function () {
     $update = Telegram::commandsHandler(true);
-
+    \Illuminate\Support\Facades\Log::alert($update["message"]["chat"]["id"]);
     return 'ok';
 });
