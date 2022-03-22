@@ -20,8 +20,8 @@ Route::get('/', function () {
 
 Route::get('/bot', [TelegramBotController::class, 'index']);
 
-Route::post('bot/<token>/webhook', function () {
+Route::post('/bot/webhook', function () {
     $update = Telegram::commandsHandler(true);
 
-    return 'ok';
+    return json_encode($update);
 });
