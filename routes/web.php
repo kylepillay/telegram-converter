@@ -18,7 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/bot', [TelegramBotController::class, 'index']);
+Route::get('/bot/set_webhook', [TelegramBotController::class, 'index']);
+
+Route::get('/bot/get_webhook_info', [TelegramBotController::class, 'getWebhookInfo']);
 
 Route::post('/bot/webhook', function () {
 
