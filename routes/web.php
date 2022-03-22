@@ -21,12 +21,8 @@ Route::get('/', function () {
 Route::get('/bot', [TelegramBotController::class, 'index']);
 
 Route::post('/bot/webhook', function () {
-    $updates = Telegram::getWebhookUpdates();
 
-    Telegram::sendMessage([
-        'chat_id' => 'gulubums',
-        'text' => 'Hello World'
-    ]);
+    $update = Telegram::commandsHandler(true);
 
     return 'ok';
 });
