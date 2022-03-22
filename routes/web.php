@@ -23,7 +23,7 @@ Route::get('/bot/set_webhook', [TelegramBotController::class, 'index']);
 Route::get('/bot/get_webhook_info', [TelegramBotController::class, 'getWebhookInfo']);
 
 Route::post('/bot/webhook', function () {
-
+    $updates = Telegram::getWebhookUpdates();
     $update = Telegram::commandsHandler(true);
 
     return 'ok';
