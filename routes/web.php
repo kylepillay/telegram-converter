@@ -23,5 +23,5 @@ Route::get('/bot', [TelegramBotController::class, 'index']);
 Route::post('/bot/webhook', function () {
     $updates = Telegram::getWebhookUpdates();
 
-    return 'ok';
+    return json_encode($updates);
 });
