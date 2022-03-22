@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TelegramBotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/bot', [TelegramBotController::class, 'index']);
+
+Route::post('bot/<token>/webhook', function () {
+    $update = Telegram::commandsHandler(true);
+
+    return 'ok';
 });
