@@ -38,8 +38,8 @@ class StartCommand extends Command
 
         // Build the list
         $response = '';
-        foreach ($this->arguments as $argument) {
-            $response .= sprintf('/%s - %s' . PHP_EOL, 'Argument: ', $argument);
+        foreach ($commands as $command => $value) {
+            $response .= sprintf('/%s - %s' . PHP_EOL, $command, $command->getDescription());
         }
 
         // Reply with the commands list
