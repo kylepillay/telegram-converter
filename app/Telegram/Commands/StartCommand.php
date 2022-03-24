@@ -37,10 +37,7 @@ class StartCommand extends Command
         $commands = $this->getTelegram()->getCommands();
 
         // Build the list
-        $response = '';
-        foreach ($commands as $command => $value) {
-            $response .= sprintf('/%s - %s' . PHP_EOL, $command, $command->getDescription());
-        }
+        $response = 'Hi there';
 
         // Reply with the commands list
         $this->replyWithMessage(['text' => $response]);
