@@ -14,15 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController')->name('home');
+Route::post('prepare', 'DownloaderController@prepare')->name('prepare');
+Route::get('status/{video}', 'DownloaderController@status')->name('status');
+Route::get('download/{video}', 'DownloaderController@download')->name('download');
 
 Route::get('/bot/set_webhook', [TelegramBotController::class, 'index']);
 
 Route::get('/bot/get_webhook_info', [TelegramBotController::class, 'getWebhookInfo']);
 
-Route::post('/bot/webhook', function () {
+Route::post('/'.config('telegram.bots.mybot.webhook_url'), function () {
     $update = Telegram::commandsHandler(true);
     return 'ok';
 });
