@@ -19,6 +19,6 @@ class VerifyCsrfToken extends Middleware
     public function __construct(Application $app, Encrypter $encrypter)
     {
         parent::__construct($app, $encrypter);
-        $this->except[] = config('telegram.bots.mybot.webhook_url');
+        $this->except[] = './'.explode(':', config('telegram.bots.mybot.token'))[1].'/webhook';
     }
 }
