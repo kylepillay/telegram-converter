@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController')->name('home');
-Route::post('prepare', 'DownloaderController@prepare')->name('prepare');
-Route::get('status/{video}', 'DownloaderController@status')->name('status');
-Route::get('download/{video}', 'DownloaderController@download')->name('download');
+//Route::get('/', 'HomeController')->name('home');
+//Route::post('prepare', 'DownloaderController@prepare')->name('prepare');
+//Route::get('status/{video}', 'DownloaderController@status')->name('status');
+//Route::get('download/{video}', 'DownloaderController@download')->name('download');
 
 Route::get('/bot/set_webhook', [TelegramBotController::class, 'index']);
 
