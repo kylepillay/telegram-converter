@@ -6,6 +6,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Api;
+use YouTube\Exception\YouTubeException;
+use YouTube\YouTubeDownloader;
 
 class TelegramBotController extends Controller
 {
@@ -60,7 +62,43 @@ class TelegramBotController extends Controller
 
         $this->telegram->commandsHandler(true);
 
+        if ($this->isYoutubeUrl($this->text)) {
+            $youtube = new YouTubeDownloader();
+
+            try {
+                $downloadOptions = $youtube->getDownloadLinks($request["url"]);
+
+                if ($downloadOptions->getCombinedFormats()) {
+                    $this->sendMessage($this->buildYoutubeLinksList($downloadOptions->getCombinedFormats()));
+                } else {
+                    echo 'No links found';
+                }
+            } catch (YouTubeException $e) {
+                echo 'Something went wrong: ' . $e->getMessage();
+            }
+        }
         $this->sendMessage($this->text);
+    }
+
+    protected function isYoutubeUrl (string $url) {
+        $rx = '~
+                  ^(?:https?://)?                           # Optional protocol
+                   (?:www[.])?                              # Optional sub-domain
+                   (?:youtube[.]com/watch[?]v=|youtu[.]be/) # Mandatory domain name (w/ query string in .com)
+                   ([^&]{11})                               # Video id of 11 characters as capture group 1
+                    ~x';
+
+        return preg_match($rx, $url);
+    }
+
+    protected function buildYoutubeLinksList (array $linksList) {
+        $text = '';
+
+        foreach ($linksList as $link) {
+            $text .= "<a href='".$link->url."'>".$link->quality."</a>\n";
+        }
+
+        return $text;
     }
 
     /**

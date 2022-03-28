@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\DownloadVideo;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use YouTube\YouTubeDownloader;
@@ -19,7 +18,7 @@ class DownloaderController extends Controller
         $youtube = new YouTubeDownloader();
 
         try {
-            $downloadOptions = $youtube->getDownloadLinks("https://www.youtube.com/watch?v=aqz-KE-bpKQ");
+            $downloadOptions = $youtube->getDownloadLinks($request["url"]);
 
             if ($downloadOptions->getAllFormats()) {
                 return view('status', [
@@ -35,6 +34,17 @@ class DownloaderController extends Controller
         }
 
         // return redirect()->route('/status/'.$video->id);
+    }
+
+    protected function isYoutubeUrl (string $url) {
+        $rx = '~
+                  ^(?:https?://)?                           # Optional protocol
+                   (?:www[.])?                              # Optional sub-domain
+                   (?:youtube[.]com/watch[?]v=|youtu[.]be/) # Mandatory domain name (w/ query string in .com)
+                   ([^&]{11})                               # Video id of 11 characters as capture group 1
+                    ~x';
+
+        return preg_match($rx, $url);
     }
 
     public function status(Video $video)
