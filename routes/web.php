@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DownloaderController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TelegramBotController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', 'HomeController')->name('home');
-//Route::post('prepare', 'DownloaderController@prepare')->name('prepare');
-//Route::get('status/{video}', 'DownloaderController@status')->name('status');
-//Route::get('download/{video}', 'DownloaderController@download')->name('download');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('prepare', [DownloaderController::class, 'prepare'])->name('prepare');
+Route::get('status/{video}', [DownloaderController::class, 'status'])->name('status');
+Route::get('download/{video}', [DownloaderController::class, 'download'])->name('download');
 
 Route::get('/bot/set_webhook', [TelegramBotController::class, 'index']);
 
