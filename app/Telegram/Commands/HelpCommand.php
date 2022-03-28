@@ -31,7 +31,6 @@ class HelpCommand extends Command
 
     {
         $response = $this->getUpdate();
-
         $test = '';
 
         foreach ($this->getArguments() as $argument) {
