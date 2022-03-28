@@ -77,7 +77,6 @@ class TelegramBotController extends Controller
                 echo 'Something went wrong: ' . $e->getMessage();
             }
         }
-        $this->sendMessage($this->text);
     }
 
     protected function isYoutubeUrl (string $url) {
