@@ -69,10 +69,7 @@ class TelegramBotController extends Controller
                 $downloadOptions = $youtube->getDownloadLinks($this->text);
                 $combined = $downloadOptions->getCombinedFormats();
                 if ($combined) {
-                    $this->telegram->sendMessage([
-                        'chat_id' => $this->chat_id,
-                        'message' => $combined[sizeof($combined) - 1]->url
-                    ]);
+                    $this->sendMessage(end($combined)->url);
                 } else {
                     $this->sendMessage('No links found');
                 }
