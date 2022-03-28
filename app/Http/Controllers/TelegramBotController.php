@@ -66,15 +66,15 @@ class TelegramBotController extends Controller
             $youtube = new YouTubeDownloader();
 
             try {
-                $downloadOptions = $youtube->getDownloadLinks($request["url"]);
+                $downloadOptions = $youtube->getDownloadLinks($this->text);
 
                 if ($downloadOptions->getCombinedFormats()) {
                     $this->sendMessage($this->buildYoutubeLinksList($downloadOptions->getCombinedFormats()));
                 } else {
-                    echo 'No links found';
+                    $this->sendMessage('No links found');
                 }
             } catch (YouTubeException $e) {
-                echo 'Something went wrong: ' . $e->getMessage();
+                $this->sendMessage($e->getMessage());
             }
         }
     }
