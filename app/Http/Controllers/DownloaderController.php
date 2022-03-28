@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Jobs\DownloadVideo;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use YouTube\YouTubeDownloader;
+use YouTube\Exception\YouTubeException;
 
 class DownloaderController extends Controller
 {
@@ -14,13 +16,25 @@ class DownloaderController extends Controller
             'url' => 'required|url'
         ]);
 
-        $video = Video::create([
-            'url' => $request->input('url')
-        ]);
+        $youtube = new YouTubeDownloader();
 
-        DownloadVideo::dispatch($video);
+        try {
+            $downloadOptions = $youtube->getDownloadLinks("https://www.youtube.com/watch?v=aqz-KE-bpKQ");
 
-        return redirect()->route('/status/'.$video->id);
+            if ($downloadOptions->getAllFormats()) {
+                return view('status', [
+                    "combined" => $downloadOptions->getCombinedFormats(),
+                        "audio" => $downloadOptions->getAudioFormats()
+                    ]
+                );
+            } else {
+                echo 'No links found';
+            }
+        } catch (YouTubeException $e) {
+            echo 'Something went wrong: ' . $e->getMessage();
+        }
+
+        // return redirect()->route('/status/'.$video->id);
     }
 
     public function status(Video $video)
