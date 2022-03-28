@@ -94,7 +94,7 @@ class TelegramBotController extends Controller
         $text = '';
 
         foreach ($linksList as $link) {
-            $text .= "<a href='".$link->url."' download>".$link->quality."</a>\n";
+            $text .= "<a href='".$link->url."' download='".$link->quality."'>".$link->quality."</a>\n";
         }
 
         return $text;
